@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dev.door_dash.R
 import com.dev.door_dash.data.DashStoreItem
@@ -26,7 +27,7 @@ import java.util.concurrent.TimeUnit
 
 class SummaryActivity : AppCompatActivity() {
 
-    companion object{
+    companion object {
         val bundleKey = "BUNDLE_KEY"
     }
 
@@ -57,6 +58,12 @@ class SummaryActivity : AppCompatActivity() {
         adapter = StoreAdapter(publishSubject = publishSubject)
         summary_store_list.adapter = adapter
         summary_store_list.layoutManager = LinearLayoutManager(this)
+        summary_store_list.addItemDecoration(
+            DividerItemDecoration(
+                this,
+                DividerItemDecoration.VERTICAL
+            )
+        )
     }
 
     private fun setupViewModel() {
