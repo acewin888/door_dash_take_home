@@ -3,8 +3,10 @@ package com.dev.door_dash.summary_screen
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.dev.door_dash.data.DashStore
+import com.dev.door_dash.data.DashStoreItem
 import com.dev.door_dash.data.ErrorType
 import com.dev.door_dash.repo.DashRepo
+import com.dev.door_dash.rxSchedulers.ProdScheduler
 import com.dev.door_dash.rxSchedulers.RxScheduler
 import io.reactivex.disposables.CompositeDisposable
 
@@ -17,7 +19,7 @@ class SummaryViewModel(
     private val subscription: CompositeDisposable
 ) : ViewModel() {
 
-    val storesLiveData: MutableLiveData<List<DashStore>> = MutableLiveData()
+    val storesLiveData: MutableLiveData<List<DashStoreItem>> = MutableLiveData()
     val progressLiveData: MutableLiveData<Boolean> = MutableLiveData()
 
     //TODO convert it to single Event

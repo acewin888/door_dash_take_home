@@ -7,7 +7,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dev.door_dash.R
-import com.dev.door_dash.data.DashStore
+import com.dev.door_dash.data.DashStoreItem
 import com.dev.door_dash.network.NetworkingManager
 import com.dev.door_dash.network.NetworkingManagerImpl
 import com.dev.door_dash.repo.DashRepo
@@ -23,10 +23,10 @@ import kotlinx.android.synthetic.main.activity_summary.*
 class SummaryActivity : AppCompatActivity() {
 
     private val networkingManager: NetworkingManager by lazy { NetworkingManagerImpl() }
-    private val repo: DashRepo by lazy { DashRepoImpl(networkingManager) }
+    private val repo: DashRepo by lazy { DashRepoImpl(networkManager = networkingManager) }
     private val rxScheduler: RxScheduler by lazy { ProdScheduler() }
     private val subscription: CompositeDisposable by lazy { CompositeDisposable() }
-    private val publishSubject: PublishSubject<DashStore> = PublishSubject.create()
+    private val publishSubject: PublishSubject<DashStoreItem> = PublishSubject.create()
     private val viewModelFactory: ViewModelFactory =
         ViewModelFactory(subscription, repo, rxScheduler)
 

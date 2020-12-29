@@ -6,7 +6,7 @@ import com.squareup.moshi.JsonClass
 import kotlinx.android.parcel.Parcelize
 
 /**
- * Store data
+ * Store data from API
  */
 @Parcelize
 @JsonClass(generateAdapter = true)
@@ -15,6 +15,8 @@ data class DashStore(
     val id: Int = 0,
     @Json(name = "average_rating")
     val average_rating: Double = 0.0,
+    @Json(name = "status")
+    val status: StoreStatus = StoreStatus(),
     @Json(name = "description")
     val description: String = "",
     @Json(name = "cover_img_url")

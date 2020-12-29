@@ -1,6 +1,6 @@
 package com.dev.door_dash.repo
 
-import com.dev.door_dash.data.DashStore
+import com.dev.door_dash.data.DashStoreItem
 import io.reactivex.Single
 
 /**
@@ -11,5 +11,5 @@ interface DashRepo {
     /**
      * Get list of nearby restaurants
      */
-    fun getRestaurants(): Single<List<DashStore>>
+    fun getRestaurants(): Single<List<DashStoreItem>>
 }
