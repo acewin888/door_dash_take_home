@@ -12,7 +12,6 @@ class DashRepoImpl(
     private val transformer: Transformer = Transformer()
 ) : DashRepo {
 
-
     override fun getRestaurants(): Single<List<DashStoreItem>> {
         return networkManager.getDashStoreAPI().getStoreSummary()
             .map { it.stores }
