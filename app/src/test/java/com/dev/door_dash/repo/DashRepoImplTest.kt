@@ -1,16 +1,15 @@
 package com.dev.door_dash.repo
 
-import com.dev.door_dash.data.DashResponse
-import com.dev.door_dash.data.DashStore
-import com.dev.door_dash.data.DashStoreItem
-import com.dev.door_dash.data.StoreStatus
+import com.dev.door_dash.data.*
 import com.dev.door_dash.network.DashStoreAPI
 import com.dev.door_dash.network.NetworkingManager
 import com.dev.door_dash.rxSchedulers.RxScheduler
 import com.dev.door_dash.rxSchedulers.TestScheduler
 import io.mockk.every
 import io.mockk.mockk
+import io.mockk.verify
 import io.reactivex.Observable
+import io.reactivex.Single
 import org.junit.Before
 import org.junit.Test
 
@@ -23,6 +22,7 @@ class DashRepoImplTest {
         private const val CLOSED = "Closed"
         private const val ID = 1234
         private const val NUMBER_OF_RESPOSNE = 1
+        private const val PHONE_NUMBER = 12345
     }
 
     private val networkingManager: NetworkingManager = mockk()
@@ -32,6 +32,7 @@ class DashRepoImplTest {
     private lateinit var dashStore: DashStore
     private lateinit var storeStatus: StoreStatus
     private lateinit var listOfStore: List<DashStore>
+    private lateinit var dashDetail: DashDetail
 
     private val rxScheduler: RxScheduler = TestScheduler()
 
@@ -42,6 +43,7 @@ class DashRepoImplTest {
         mockData()
         every { networkingManager.getDashStoreAPI() } returns dashStoreAPI
         every { dashStoreAPI.getStoreSummary() } returns Observable.just(dashStoreResponse)
+        every { dashStoreAPI.getDetail(ID) } returns Single.just(dashDetail)
         dashRepo = DashRepoImpl(networkManager = networkingManager)
 
     }
@@ -62,6 +64,7 @@ class DashRepoImplTest {
             num_results = NUMBER_OF_RESPOSNE,
             stores = listOfStore
         )
+        dashDetail = DashDetail(phone_number = PHONE_NUMBER.toString())
     }
 
     @Test
@@ -84,5 +87,12 @@ class DashRepoImplTest {
             }, {
 
             })
+    }
+
+    @Test
+    fun `test get detail restaurant`() {
+        dashRepo.getRestaurant(ID)
+
+        verify(exactly = 1) { dashStoreAPI.getDetail(ID) }
     }
 }

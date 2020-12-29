@@ -26,6 +26,10 @@ import java.util.concurrent.TimeUnit
 
 class SummaryActivity : AppCompatActivity() {
 
+    companion object{
+        val bundleKey = "BUNDLE_KEY"
+    }
+
     private val networkingManager: NetworkingManager by lazy { NetworkingManagerImpl() }
     private val repo: DashRepo by lazy { DashRepoImpl(networkManager = networkingManager) }
     private val rxScheduler: RxScheduler by lazy { ProdScheduler() }
@@ -71,13 +75,21 @@ class SummaryActivity : AppCompatActivity() {
             adapter.updateList(it)
         })
 
+        viewModel.detailLiveData.observe(this, Observer {
+            it.getContentIfNotHandled()?.let {
+                val intent = Intent(this, DetailActivity::class.java).apply {
+                    putExtra(bundleKey, it)
+                }
+                startActivity(intent)
+            }
+        })
+
         subscription.add(
             publishSubject
                 .throttleFirst(500, TimeUnit.MILLISECONDS)
                 .subscribe(
                     {
-                        val intent = Intent(this, DetailActivity::class.java)
-                        startActivity(intent)
+                        viewModel.getDetailRestaurant(it.id)
                     },
                     {
                         Log.d("door dash", "rx went wrong")

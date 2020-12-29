@@ -2,11 +2,11 @@ package com.dev.door_dash.summary_screen
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.dev.door_dash.data.DashStore
+import com.dev.door_dash.Event.Event
+import com.dev.door_dash.data.DashDetail
 import com.dev.door_dash.data.DashStoreItem
 import com.dev.door_dash.data.ErrorType
 import com.dev.door_dash.repo.DashRepo
-import com.dev.door_dash.rxSchedulers.ProdScheduler
 import com.dev.door_dash.rxSchedulers.RxScheduler
 import io.reactivex.disposables.CompositeDisposable
 
@@ -23,6 +23,7 @@ class SummaryViewModel(
     val progressLiveData: MutableLiveData<Boolean> = MutableLiveData()
 
     //TODO convert it to single Event
+    val detailLiveData: MutableLiveData<Event<DashDetail>> = MutableLiveData()
     val errorLiveData: MutableLiveData<ErrorType> = MutableLiveData()
 
 
@@ -38,6 +39,22 @@ class SummaryViewModel(
                     },
                     {
                         progressLiveData.value = false
+                        errorLiveData.value = ErrorType.Network(it.toString())
+                    }
+                )
+        )
+    }
+
+    fun getDetailRestaurant(id: Int) {
+        subscription.add(
+            repo.getRestaurant(id)
+                .subscribeOn(rxScheduler.getIO())
+                .observeOn(rxScheduler.getMain())
+                .subscribe(
+                    {
+                        detailLiveData.value = Event(it)
+                    },
+                    {
                         errorLiveData.value = ErrorType.Network(it.toString())
                     }
                 )

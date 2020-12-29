@@ -1,5 +1,6 @@
 package com.dev.door_dash.repo
 
+import com.dev.door_dash.data.DashDetail
 import com.dev.door_dash.data.DashStoreItem
 import com.dev.door_dash.network.NetworkingManager
 import io.reactivex.Single
@@ -18,5 +19,9 @@ class DashRepoImpl(
             .flatMapIterable { it }
             .map { transformer.transform(it) }
             .toList()
+    }
+
+    override fun getRestaurant(id: Int): Single<DashDetail> {
+        return networkManager.getDashStoreAPI().getDetail(id)
     }
 }

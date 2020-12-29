@@ -1,8 +1,11 @@
 package com.dev.door_dash.network
 
+import com.dev.door_dash.data.DashDetail
 import com.dev.door_dash.data.DashResponse
 import io.reactivex.Observable
+import io.reactivex.Single
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 /**
@@ -27,4 +30,7 @@ interface DashStoreAPI {
         @Query("offset") offset: String = OFFSET,
         @Query("limit") limit: String = LIMIT
     ): Observable<DashResponse>
+
+    @GET("v2/restaurant/{restaurant_id}/")
+    fun getDetail(@Path("restaurant_id") id: Int): Single<DashDetail>
 }
