@@ -1,5 +1,6 @@
 package com.dev.door_dash.summary_screen
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.dev.door_dash.Event.Event
@@ -19,12 +20,21 @@ class SummaryViewModel(
     private val subscription: CompositeDisposable
 ) : ViewModel() {
 
-    val storesLiveData: MutableLiveData<List<DashStoreItem>> = MutableLiveData()
-    val progressLiveData: MutableLiveData<Boolean> = MutableLiveData()
+    private val _storesLiveData: MutableLiveData<List<DashStoreItem>> = MutableLiveData()
+    val storesLiveData: LiveData<List<DashStoreItem>>
+        get() = _storesLiveData
 
-    //TODO convert it to single Event
-    val detailLiveData: MutableLiveData<Event<DashDetail>> = MutableLiveData()
-    val errorLiveData: MutableLiveData<ErrorType> = MutableLiveData()
+    private val _progressLiveData: MutableLiveData<Boolean> = MutableLiveData()
+    val progressLiveData: LiveData<Boolean>
+        get() = _progressLiveData
+
+    private val _detailLiveData: MutableLiveData<Event<DashDetail>> = MutableLiveData()
+    val detailLiveData: LiveData<Event<DashDetail>>
+        get() = _detailLiveData
+
+    private val _errorLiveData: MutableLiveData<ErrorType> = MutableLiveData()
+    val errorLiveData: LiveData<ErrorType>
+        get() = _errorLiveData
 
 
     fun getNearbyRestaurants() {
@@ -34,12 +44,12 @@ class SummaryViewModel(
                 .observeOn(rxScheduler.getMain())
                 .subscribe(
                     {
-                        progressLiveData.value = false
-                        storesLiveData.value = it
+                        _progressLiveData.value = false
+                        _storesLiveData.value = it
                     },
                     {
-                        progressLiveData.value = false
-                        errorLiveData.value = ErrorType.Network(it.toString())
+                        _progressLiveData.value = false
+                        _errorLiveData.value = ErrorType.Network(it.toString())
                     }
                 )
         )
@@ -52,10 +62,10 @@ class SummaryViewModel(
                 .observeOn(rxScheduler.getMain())
                 .subscribe(
                     {
-                        detailLiveData.value = Event(it)
+                        _detailLiveData.value = Event(it)
                     },
                     {
-                        errorLiveData.value = ErrorType.Network(it.toString())
+                        _errorLiveData.value = ErrorType.Network(it.toString())
                     }
                 )
         )
