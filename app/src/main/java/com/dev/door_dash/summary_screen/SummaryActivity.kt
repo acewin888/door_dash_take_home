@@ -1,13 +1,16 @@
 package com.dev.door_dash.summary_screen
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dev.door_dash.R
 import com.dev.door_dash.data.DashStoreItem
+import com.dev.door_dash.detail_screen.DetailActivity
 import com.dev.door_dash.network.NetworkingManager
 import com.dev.door_dash.network.NetworkingManagerImpl
 import com.dev.door_dash.repo.DashRepo
@@ -19,6 +22,7 @@ import com.dev.door_dash.viewModelFactory.ViewModelFactory
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.activity_summary.*
+import java.util.concurrent.TimeUnit
 
 class SummaryActivity : AppCompatActivity() {
 
@@ -66,6 +70,20 @@ class SummaryActivity : AppCompatActivity() {
         viewModel.storesLiveData.observe(this, Observer {
             adapter.updateList(it)
         })
+
+        subscription.add(
+            publishSubject
+                .throttleFirst(500, TimeUnit.MILLISECONDS)
+                .subscribe(
+                    {
+                        val intent = Intent(this, DetailActivity::class.java)
+                        startActivity(intent)
+                    },
+                    {
+                        Log.d("door dash", "rx went wrong")
+                    }
+                )
+        )
 
     }
 }

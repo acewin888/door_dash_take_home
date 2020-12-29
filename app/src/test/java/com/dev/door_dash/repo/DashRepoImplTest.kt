@@ -21,6 +21,7 @@ class DashRepoImplTest {
         private const val IMAGE_URL = "www.google.com"
         private const val DESCRIPTION = "description"
         private const val CLOSED = "Closed"
+        private const val ID = 1234
         private const val NUMBER_OF_RESPOSNE = 1
     }
 
@@ -53,7 +54,8 @@ class DashRepoImplTest {
             name = NAME,
             cover_img_url = IMAGE_URL,
             description = DESCRIPTION,
-            status = storeStatus
+            status = storeStatus,
+            id = ID
         )
         listOfStore = listOf(dashStore)
         dashStoreResponse = DashResponse(
@@ -75,7 +77,8 @@ class DashRepoImplTest {
                         name = NAME,
                         short_description = DESCRIPTION,
                         image_url = IMAGE_URL,
-                        location_status = CLOSED
+                        location_status = CLOSED,
+                        id = ID
                     )
                 )
             }, {

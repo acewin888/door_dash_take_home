@@ -15,6 +15,7 @@ import io.reactivex.disposables.CompositeDisposable
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import java.net.IDN
 import kotlin.Exception
 
 class SummaryViewModelTest {
@@ -25,6 +26,7 @@ class SummaryViewModelTest {
         private const val DESCRIPTION = "short description"
         private const val LOCATION_STATUS = "location status"
         private const val EXCEPTION_STRING = "This is a mock exception"
+        private const val ID = 1234
     }
 
     @get:Rule
@@ -59,7 +61,8 @@ class SummaryViewModelTest {
             image_url = IMAGE_URL,
             name =  NAME,
             short_description =  DESCRIPTION,
-            location_status = LOCATION_STATUS
+            location_status = LOCATION_STATUS,
+            id = ID
         )
         listOfStores = listOf(store)
         exception = Exception(EXCEPTION_STRING)

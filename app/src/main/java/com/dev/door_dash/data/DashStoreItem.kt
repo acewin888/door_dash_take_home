@@ -11,5 +11,6 @@ data class DashStoreItem(
     val image_url: String,
     val name: String,
     val short_description: String,
-    val location_status: String
+    val location_status: String,
+    val id: Int
 ) : Parcelable

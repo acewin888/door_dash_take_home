@@ -22,7 +22,8 @@ class Transformer {
             image_url = store.cover_img_url,
             name = store.name,
             short_description = getDescription(store.description.split(",").toTypedArray()),
-            location_status = getStatus(store.status)
+            location_status = getStatus(store.status),
+            id = store.id
         )
     }
 
