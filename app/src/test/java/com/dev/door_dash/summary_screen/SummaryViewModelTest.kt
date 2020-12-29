@@ -15,7 +15,6 @@ import io.reactivex.disposables.CompositeDisposable
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import java.net.IDN
 import kotlin.Exception
 
 class SummaryViewModelTest {
