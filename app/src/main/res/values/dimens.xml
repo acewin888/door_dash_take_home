@@ -3,6 +3,6 @@
     <dimen name="store_icon_height">100dp</dimen>
     <dimen name="store_icon_width">100dp</dimen>
     <dimen name="store_item_padding">16dp</dimen>
-    <dimen name="store_location_margin">16dp</dimen>
+    <dimen name="store_location_margin">32dp</dimen>
     <dimen name="store_text_padding">32dp</dimen>
 </resources>
